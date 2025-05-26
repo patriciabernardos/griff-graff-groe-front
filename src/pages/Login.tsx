@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 export default function Login(){
     return (
-        <div className="login-page">
+        <div className="h-screen flex flex-col items-center justify-center gap-4">
         <h1>Login Page</h1>
         <form>
             <div>
             <label htmlFor="username">Username:</label>
-            <input type="text" id="username" name="username" required />
+            <input type="text" id="username" name="username" placeholder="Username" required />
             </div>
             <div>
             <label htmlFor="password">Password:</label>
