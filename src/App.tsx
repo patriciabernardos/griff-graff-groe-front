@@ -5,9 +5,9 @@ import Login from './pages/Login';
 import NotFoundPage from './pages/NotFoundPage';
 
 const router = createBrowserRouter([
-  { path: '/griff-graff-groe', element: <HomePage />, errorElement: <NotFoundPage /> },
-  { path: '/griff-graff-groe/board', element: <Board /> },
-  { path: '/griff-graff-groe/login', element: <Login /> },
+  { path: '/griffgraffgroe', element: <HomePage />, errorElement: <NotFoundPage /> },
+  { path: '/griffgraffgroe/board', element: <Board /> },
+  { path: '/griffgraffgroe/login', element: <Login /> },
 ]);
 
 function App() {
