@@ -16,7 +16,7 @@ export default function Login(){
             <button type="submit">Login</button>
         </form>
 
-              <Link to="/" className="mt-6 text-blue-500 hover:underline"> Volver a la página de inicio</Link>
+              <Link to="/griffgraffgroe" className="mt-6 text-blue-500 hover:underline"> Volver a la página de inicio</Link>
         </div>
     );
 }
