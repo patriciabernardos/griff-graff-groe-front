@@ -1,12 +1,27 @@
-import logotipo from '../assets/logotipo.svg';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import logoLarge from '../assets/logo-large.svg';
+import logoSmall from '../assets/logo-small.svg';
 
-const Logo = () => {
-  return (
-    <div className="flex items-center space-x-2">
-      <img src={logotipo} alt="Logo" className="h-8 w-8" />
-  
-    </div>
+type LogoProps = {
+  to?: string;
+  size?: 'small' | 'large';
+  className?: string;
+};
+
+const Logo: React.FC<LogoProps> = ({ to = '/', size = 'large', className }) => {
+  const src = size === 'small' ? logoSmall :  logoLarge;
+  const alt = 'GriffGraffGroe Logo';
+
+  const content = (
+    <img src={src} alt={alt} className={className} />
   );
+
+  if (to) {
+    return <Link to={to}>{content}</Link>;
+  }
+
+  return <>{content}</>;
 };
 
 export default Logo;
