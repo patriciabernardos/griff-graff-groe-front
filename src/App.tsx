@@ -3,11 +3,13 @@ import HomePage from './pages/HomePage';
 import Board from './pages/Board';
 import Login from './pages/Login';
 import NotFoundPage from './pages/NotFoundPage';
+import ForgottenPass from './pages/ForgottenPass';
 
 const router = createBrowserRouter([
   { path: '/griffgraffgroe', element: <HomePage />, errorElement: <NotFoundPage /> },
   { path: '/griffgraffgroe/board', element: <Board /> },
   { path: '/griffgraffgroe/login', element: <Login /> },
+  { path: '/griffgraffgroe/forgottenpass', element: <ForgottenPass /> },
 ]);
 
 function App() {

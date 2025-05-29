@@ -9,7 +9,7 @@ type LogoProps = {
   className?: string;
 };
 
-const Logo: React.FC<LogoProps> = ({ to = '/', size = 'large', className }) => {
+const Logo: React.FC<LogoProps> = ({ to = '/griffgraffgroe', size = 'large', className }) => {
   const src = size === 'small' ? logoSmall :  logoLarge;
   const alt = 'GriffGraffGroe Logo';
 
