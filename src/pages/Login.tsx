@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useAuth } from "../auth/AuthProvider";
 
@@ -8,8 +8,10 @@ export default function Login() {
   
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-const auth = useAuth();
+  const auth = useAuth();
   
+if(auth.isAuthenticated) { return <Navigate to={"/griffgraffgroe/dashboard"} replace />; }
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
@@ -43,6 +45,7 @@ const auth = useAuth();
           type="email"
           placeholder="Username"
           className="border-2 border-gray-300 rounded p-2 m-2"
+          value={username}
           onChange={(e) => setUsername(e.target.value)} // Set username state
           required
         />
@@ -50,6 +53,7 @@ const auth = useAuth();
           type="password"
           placeholder="Password"
           className="border-2 border-gray-300 rounded p-2 m-2"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
