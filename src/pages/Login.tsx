@@ -2,20 +2,66 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useAuth } from "../auth/AuthProvider";
+import { API_URL } from "../auth/Constants";
 
 export default function Login() {
   const [isLoginMode, setIsLoginMode] = useState(true);
-  
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const auth = useAuth();
-  
-if(auth.isAuthenticated) { return <Navigate to={"/griffgraffgroe/dashboard"} replace />; }
 
+  const auth = useAuth();
+
+  const [submitted, setSubmitted] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `${API_URL}/${isLoginMode ? "signin" : "signup"}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        });
+
+      if (!response.ok) {
+        console.error("Error in authentication request");
+        return;
+      } else {
+        console.log("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (auth.isAuthenticated) {
+    return <Navigate to={"/griffgraffgroe/dashboard"} replace />;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
       {/*<Logo size="Large" className="h-60 w-auto" />*/}
+
+      {!submitted ? (
+        <p className="text-green-500">Formulario enviado.</p>
+      ) : (
+        <div>Hey</div>
+      )}
+
+      <button
+        type="button"
+        onClick={() => setSubmitted(!submitted)}
+        className="mt-4 p-2 border rounded"
+      >
+        refresh
+      </button>
 
       <div className="flex  items-center justify-center m-5">
         <button
@@ -39,7 +85,10 @@ if(auth.isAuthenticated) { return <Navigate to={"/griffgraffgroe/dashboard"} rep
           Sign Up
         </button>
       </div>
-      <form className="flex justify-center items-center flex-col">
+      <form
+        className="flex justify-center items-center flex-col"
+        onSubmit={handleSubmit}
+      >
         {/* Shared inout field*/}
         <input
           type="email"
@@ -57,7 +106,7 @@ if(auth.isAuthenticated) { return <Navigate to={"/griffgraffgroe/dashboard"} rep
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        {/* Signup field*/}
+        {/* Signup field
         {!isLoginMode && (
           <input
             type="password"
@@ -65,19 +114,17 @@ if(auth.isAuthenticated) { return <Navigate to={"/griffgraffgroe/dashboard"} rep
             className="border-2 border-gray-300 rounded p-2 m-2"
             required
           />
-        )}
+        )}*/}
 
-        {!isLoginMode ? (
-          <Button to={"/griffgraffgroe/login"} className="primary-button">
+        {isLoginMode ? (
+          <Button type="submit" className="primary-button" value="signin">
             Sign In
           </Button>
         ) : (
-          <Button to={"/griffgraffgroe/login"} className="primary-button">
+          <Button type="submit" className="primary-button" value="signup">
             Sign Up
           </Button>
         )}
-
-    
 
         {/* Forgot  pass */}
         {isLoginMode && (
@@ -87,9 +134,9 @@ if(auth.isAuthenticated) { return <Navigate to={"/griffgraffgroe/dashboard"} rep
         )}
       </form>
 
-          <Button to={"/griffgraffgroe"} className="text-[3em]">
-         ←
-        </Button>
+      <Button to={"/griffgraffgroe"} className="text-[3em]">
+        ←
+      </Button>
     </div>
   );
 }

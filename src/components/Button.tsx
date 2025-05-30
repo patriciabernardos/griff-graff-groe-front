@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({ to, children, className, ...rest }) => 
         );
     }
     return (
-        <button {...rest}>
+        <button className={className} {...rest}>
             {children}
         </button>
     );
