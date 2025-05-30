@@ -1,16 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../components/Logo";
 import Button from "../components/Button";
+import { useAuth } from "../auth/AuthProvider";
 
 export default function Login() {
   const [isLoginMode, setIsLoginMode] = useState(true);
+  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+const auth = useAuth();
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
-      <Logo size="small" className="h-80 w-auto" />
+      {/*<Logo size="Large" className="h-60 w-auto" />*/}
 
-      <div className="flex  items-center justify-center">
+      <div className="flex  items-center justify-center m-5">
         <button
           onClick={() => setIsLoginMode(true)}
           className={
@@ -19,7 +24,7 @@ export default function Login() {
               : "border-b-4  px-4 py-2 rounded"
           }
         >
-          Sign Up
+          Sign In
         </button>
         <button
           onClick={() => setIsLoginMode(false)}
@@ -29,7 +34,7 @@ export default function Login() {
               : "border-b-4  px-4 py-2 rounded"
           }
         >
-          Sign In
+          Sign Up
         </button>
       </div>
       <form className="flex justify-center items-center flex-col">
@@ -38,33 +43,49 @@ export default function Login() {
           type="email"
           placeholder="Username"
           className="border-2 border-gray-300 rounded p-2 m-2"
+          onChange={(e) => setUsername(e.target.value)} // Set username state
           required
         />
         <input
           type="password"
           placeholder="Password"
           className="border-2 border-gray-300 rounded p-2 m-2"
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         {/* Signup field*/}
         {!isLoginMode && (
           <input
-            type="text"
+            type="password"
             placeholder="Confirm Pasword"
             className="border-2 border-gray-300 rounded p-2 m-2"
             required
           />
         )}
-        {/* Forget  pass */}
+
+        {!isLoginMode ? (
+          <Button to={"/griffgraffgroe/login"} className="primary-button">
+            Sign In
+          </Button>
+        ) : (
+          <Button to={"/griffgraffgroe/login"} className="primary-button">
+            Sign Up
+          </Button>
+        )}
+
+    
+
+        {/* Forgot  pass */}
         {isLoginMode && (
           <Link to={"/griffgraffgroe/ForgottenPass"} className="underline">
             He olvidado mi contraseña
           </Link>
         )}
-{!isLoginMode ?  <Button to={'/griffgraffgroe/login'} className="primary-button">Sign In</Button> :  <Button to={'/griffgraffgroe/login'} className="primary-button">Sign Up</Button>}
-  
-           <Button to={'/griffgraffgroe'} className="text-[3em]">⬅️</Button>
       </form>
+
+          <Button to={"/griffgraffgroe"} className="text-[3em]">
+         ←
+        </Button>
     </div>
   );
 }
