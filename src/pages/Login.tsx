@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useAuth } from "../auth/AuthProvider";
 import { API_URL } from "../auth/Constants";
+import type { AuthResponseError } from "../types/types";
+import Checkbox from "../components/Checkbox";
 
 export default function Login() {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [errorResponse, setErrorResponse] = useState<string | null>(null);
 
   const auth = useAuth();
-
-  const [submitted, setSubmitted] = useState(false);
+  const goTo = useNavigate();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,13 +31,18 @@ export default function Login() {
             username,
             password,
           }),
-        });
+        }
+      );
 
-      if (!response.ok) {
-        console.error("Error in authentication request");
-        return;
+      if (response.ok) {
+        console.log("User Created Successfully");
+        setErrorResponse("");
+        goTo("/griffgraffgroe/registered");
       } else {
-        console.log("Something went wrong");
+        console.error("Something went wrong");
+        const json = (await response.json()) as AuthResponseError;
+        setErrorResponse(json.body.error);
+        return;
       }
     } catch (error) {
       console.log(error);
@@ -47,90 +55,85 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
-      {/*<Logo size="Large" className="h-60 w-auto" />*/}
-
-      {!submitted ? (
-        <p className="text-green-500">Formulario enviado.</p>
-      ) : (
-        <div>Hey</div>
-      )}
-
-      <button
-        type="button"
-        onClick={() => setSubmitted(!submitted)}
-        className="mt-4 p-2 border rounded"
-      >
-        refresh
-      </button>
-
       <div className="flex  items-center justify-center m-5">
         <button
           onClick={() => setIsLoginMode(true)}
           className={
             isLoginMode
-              ? "border-b-4 border-purple px-4 py-2 rounded"
+              ? "border-b-4 border-purple px-4 py-2 rounded font-semibold"
               : "border-b-4  px-4 py-2 rounded"
           }
         >
-          Sign In
+          Iniciar Sesión
         </button>
         <button
           onClick={() => setIsLoginMode(false)}
           className={
             !isLoginMode
-              ? "border-b-4 border-purple px-4 py-2 rounded"
+              ? "border-b-4 border-purple px-4 py-2 rounded font-semibold"
               : "border-b-4  px-4 py-2 rounded"
           }
         >
-          Sign Up
+          Registrarse
         </button>
       </div>
       <form
         className="flex justify-center items-center flex-col"
         onSubmit={handleSubmit}
       >
-        {/* Shared inout field*/}
+        {!!errorResponse && <div>{errorResponse}</div>}
+
         <input
           type="email"
-          placeholder="Username"
-          className="border-2 border-gray-300 rounded p-2 m-2"
+          placeholder="Correo electrónico"
+          className="border-2 border-gray-300 rounded p-2 m-2 focus:outline-none focus:ring-2 focus:ring-green"
           value={username}
           onChange={(e) => setUsername(e.target.value)} // Set username state
           required
         />
+
         <input
           type="password"
-          placeholder="Password"
-          className="border-2 border-gray-300 rounded p-2 m-2"
+          placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="border-2 border-gray-300 rounded p-2 m-2  focus:outline-none focus:ring-2 focus:ring-green"
           required
         />
-        {/* Signup field
+
         {!isLoginMode && (
           <input
             type="password"
-            placeholder="Confirm Pasword"
-            className="border-2 border-gray-300 rounded p-2 m-2"
+            placeholder="Confirma tu Contraseña"
+            className="border-2 border-gray-300 rounded p-2 m-2  focus:outline-none focus:ring-2 focus:ring-green"
             required
           />
-        )}*/}
-
-        {isLoginMode ? (
-          <Button type="submit" className="primary-button" value="signin">
-            Sign In
-          </Button>
-        ) : (
-          <Button type="submit" className="primary-button" value="signup">
-            Sign Up
-          </Button>
         )}
-
         {/* Forgot  pass */}
         {isLoginMode && (
           <Link to={"/griffgraffgroe/ForgottenPass"} className="underline">
             He olvidado mi contraseña
           </Link>
+        )}
+
+        {/*Rememberme */}
+        {isLoginMode && (
+          <Checkbox
+            id="remember-me"
+            label="Recuérdame"
+            className="flex  mb-4"
+            onChange={e => setRememberMe(e.target.checked)}
+          />
+        )}
+
+        {isLoginMode ? (
+          <Button type="submit" className="primary-button" value="signin">
+            Inicia Sesión
+          </Button>
+        ) : (
+          <Button type="submit" className="primary-button" value="signup">
+            Registrate
+          </Button>
         )}
       </form>
 

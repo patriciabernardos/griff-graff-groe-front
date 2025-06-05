@@ -7,6 +7,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ForgottenPass from "./pages/ForgottenPass";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { AuthProvider } from "./auth/AuthProvider";
+import Registred from "./pages/Registered";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   { path: "/griffgraffgroe/login", element: <Login /> },
   { path: "/griffgraffgroe/forgottenpass", element: <ForgottenPass /> },
   { path: "/griffgraffgroe/board", element: <Board /> },
+  { path: "/griffgraffgroe/registered", element: <Registred /> },
   {
     path: "/griffgraffgroe",
     element: <ProtectedRoute />,
