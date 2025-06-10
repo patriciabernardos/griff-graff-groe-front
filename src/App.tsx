@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
-import Board from "./pages/Board";
+import Guest from "./pages/Guest";
 import Dashboard from "./pages/Dashboard";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgottenPass from "./pages/ForgottenPass";
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
   },
   { path: "/griffgraffgroe/login", element: <Login /> },
   { path: "/griffgraffgroe/forgottenpass", element: <ForgottenPass /> },
-  { path: "/griffgraffgroe/board", element: <Board /> },
+  { path: "/griffgraffgroe/guest", element: <Guest /> },
   { path: "/griffgraffgroe/registered", element: <Registred /> },
   {
     path: "/griffgraffgroe",
